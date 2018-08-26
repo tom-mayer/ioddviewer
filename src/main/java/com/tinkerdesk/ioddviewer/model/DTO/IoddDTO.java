@@ -31,7 +31,13 @@ public class IoddDTO {
             iodd.setVendorName("NOT FOUND");
         }
         try{
-            iodd.setDeviceName("NOT YET");
+            String deviceName = "NOT FOUND";
+            for(TextDTO text: this.getExternalTextCollection().getPrimaryLanguage().getText()){
+                if(text.getId().equals(this.getProfileBody().getDeviceIdentity().getDeviceName().getTextId())){
+                    deviceName = text.getValue();
+                }
+            }
+            iodd.setDeviceName(deviceName);
         }catch (Exception ex){
             iodd.setDeviceName("NOT FOUND");
         }

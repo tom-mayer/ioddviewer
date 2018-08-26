@@ -93,12 +93,11 @@
               <th>Bitrate</th>
             </tr>
             </thead>
-
             <tbody>
               <tr *ngFor="let iodd of iodds">
                 <td>{{iodd.id}}</td>
-                <td>{{iodd.vendor_name}}</td>
                 <td>{{iodd.device_name}}</td>
+                <td>{{iodd.vendor_name}}</td>
                 <td>{{iodd.io_link_revision}}</td>
                 <td>{{iodd.bitrate}}</td>
               </tr>
