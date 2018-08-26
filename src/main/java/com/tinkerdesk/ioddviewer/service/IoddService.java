@@ -26,6 +26,9 @@ public class IoddService implements ApplicationListener<WatchedFileChangedEvent>
     @Autowired
     private ApplicationHelperService helper;
 
+    @Autowired
+    private CommandService command;
+
     private Hashtable<String, Iodd> memoryCache;
 
     @PostConstruct
@@ -50,6 +53,7 @@ public class IoddService implements ApplicationListener<WatchedFileChangedEvent>
         }
 
         directory.startWatching();
+        this.command.sendRefreshCommand();
     }
 
     public List<Iodd> getAllIodds(){
@@ -74,6 +78,7 @@ public class IoddService implements ApplicationListener<WatchedFileChangedEvent>
                 onFileDeleted(watchedFileChangedEvent);
                 break;
         }
+        this.command.sendRefreshCommand();
     }
 
     protected void onFileCreated(WatchedFileChangedEvent watchedFileChangedEvent){

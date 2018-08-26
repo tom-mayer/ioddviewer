@@ -27,22 +27,22 @@ export class AppComponent implements OnInit{
   iodds: any[];
 
   constructor(
-    private iodd: IoddService,
-    private command: CommandService
+    private ioddService: IoddService,
+    private commandService: CommandService
   ){}
 
   ngOnInit(): void {
-    this.iodd.refreshIodds();
+    this.ioddService.refreshIodds();
 
-    this.iodd.getIoddObserver().subscribe(iodds => this.onNewIodds(iodds));
-    this.iodd.getStatusObserver().subscribe(status => this.onNewStatus(status));
+    this.ioddService.getIoddObserver().subscribe(iodds => this.onNewIodds(iodds));
+    this.ioddService.getStatusObserver().subscribe(status => this.onNewStatus(status));
 
     this.status = this.STATUS_READY;
   }
 
   public manualRefresh(){
     this.status = this.STATUS_RECEIVING;
-    this.iodd.refreshIodds();
+    this.ioddService.refreshIodds();
   };
 
   private onNewStatus(status: string){
@@ -54,6 +54,17 @@ export class AppComponent implements OnInit{
     this.status = this.STATUS_READY;
     this.iodds = iodds;
     this.recalculateStatistics();
+  }
+
+  private onCommandReveived(command: string){
+    debugger;
+    if(command == 'REFRESH'){
+      this.ioddService.refreshIodds();
+    }
+  }
+
+  private onNewSocketStatus(status: string){
+    this.socket = status;
   }
 
   private recalculateStatistics(){

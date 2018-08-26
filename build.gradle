@@ -30,9 +30,15 @@ dependencies {
 
 	compile group: 'commons-io', name: 'commons-io', version: '2.6'
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.6'
 	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.9.6'
+
 	compile group: 'org.springframework.data', name: 'spring-data-redis', version: '2.0.4.RELEASE'
 	compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
+
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '2.0.4.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-websocket', version: '2.0.4.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-messaging', version: '2.0.4.RELEASE'
 
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
