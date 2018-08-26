@@ -1,0 +1,30 @@
+iodd:
+  path: /home/tom/iodd
+  interval: 500
+server:
+  port: ${PORT:8080}
+spring:
+  application:
+    name: SICK IODD Viewer
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non_empty
+    deserialization:
+      fail-on-unknown-properties: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+    log-resolved-exception: false
+security:
+  basic:
+    enabled: false
+logging:
+  pattern:
+    level: "%p"
+debug: true
+---
+spring.profiles: develop
+---
+spring.profiles: staging
+---
+spring.profiles: production
+debug: false
