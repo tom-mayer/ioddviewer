@@ -36,6 +36,8 @@ export class AppComponent implements OnInit{
 
     this.ioddService.getIoddObserver().subscribe(iodds => this.onNewIodds(iodds));
     this.ioddService.getStatusObserver().subscribe(status => this.onNewStatus(status));
+    this.commandService.getCommandObserver().subscribe( command => this.onCommandReveived(command));
+    this.commandService.getStatusObserver().subscribe(status => this.onNewSocketStatus(status));
 
     this.status = this.STATUS_READY;
   }
@@ -57,7 +59,6 @@ export class AppComponent implements OnInit{
   }
 
   private onCommandReveived(command: string){
-    debugger;
     if(command == 'REFRESH'){
       this.ioddService.refreshIodds();
     }

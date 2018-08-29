@@ -3,6 +3,8 @@ package com.tinkerdesk.ioddviewer.model.DTO;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class DeviceIdentityDTO {
 
@@ -14,5 +16,8 @@ public class DeviceIdentityDTO {
 
     @JacksonXmlProperty(localName = "DeviceName")
     private DeviceNameDTO deviceName;
+
+    @JacksonXmlProperty(localName = "DeviceVariantCollection")
+    private DeviceVariantDTO[] deviceVariantCollection;
 
 }

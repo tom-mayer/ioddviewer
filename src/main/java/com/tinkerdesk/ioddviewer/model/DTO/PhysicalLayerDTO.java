@@ -9,4 +9,6 @@ public class PhysicalLayerDTO {
     @JacksonXmlProperty(isAttribute = true)
     private String bitrate;
 
+    @JacksonXmlProperty(isAttribute = true)
+    private String baudrate;
 }

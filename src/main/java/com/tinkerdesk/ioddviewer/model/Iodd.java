@@ -11,4 +11,6 @@ public class Iodd {
 
     private String ioLinkRevision;
     private String bitrate;
+
+    private String filePath;
 }

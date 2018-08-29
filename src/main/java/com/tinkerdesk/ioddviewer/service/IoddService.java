@@ -1,6 +1,5 @@
 package com.tinkerdesk.ioddviewer.service;
 
-import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.tinkerdesk.ioddviewer.event.WatchedFileChangedEvent;
@@ -14,7 +13,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
 
 @Service
 public class IoddService implements ApplicationListener<WatchedFileChangedEvent>{
@@ -90,9 +91,18 @@ public class IoddService implements ApplicationListener<WatchedFileChangedEvent>
     }
 
     protected void onFileDeleted(WatchedFileChangedEvent watchedFileChangedEvent){
-        Iodd iodd = convertFileToIodd(watchedFileChangedEvent.getFile());
-        if(this.memoryCache.containsKey(iodd.getId())){
-            this.memoryCache.remove(iodd.getId());
+        String filePath = watchedFileChangedEvent.getFile().getAbsolutePath();
+        List<String> toDelete = new ArrayList<>();
+
+        for(String candidateKey: this.memoryCache.keySet()){
+            Iodd candidate = this.memoryCache.get(candidateKey);
+            if(candidate.getFilePath().equals(filePath)){
+                toDelete.add(candidateKey);
+            }
+        }
+
+        for(String key: toDelete){
+            this.memoryCache.remove(key);
         }
     }
 
@@ -105,7 +115,9 @@ public class IoddService implements ApplicationListener<WatchedFileChangedEvent>
         } catch (IOException e) {
             return null;
         }
-        return transfer.toIodd();
+        Iodd iodd = transfer.toIodd();
+        iodd.setFilePath(file.getAbsolutePath());
+        return iodd;
     }
 
     protected boolean fileIsIodd(File file){

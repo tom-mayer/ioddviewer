@@ -31,15 +31,22 @@ public class IoddDTO {
             iodd.setVendorName("NOT FOUND");
         }
         try{
-            String deviceName = "NOT FOUND";
-            for(TextDTO text: this.getExternalTextCollection().getPrimaryLanguage().getText()){
-                if(text.getId().equals(this.getProfileBody().getDeviceIdentity().getDeviceName().getTextId())){
-                    deviceName = text.getValue();
-                }
-            }
+            String deviceName = getNameForKey(this.getProfileBody().getDeviceIdentity().getDeviceName().getTextId());
             iodd.setDeviceName(deviceName);
         }catch (Exception ex){
-            iodd.setDeviceName("NOT FOUND");
+            try{
+                String variantKey = getProfileBody().getDeviceIdentity().getDeviceVariantCollection()[0].getProductName().getTextId();
+                if(variantKey == null){
+                    variantKey = getProfileBody().getDeviceIdentity().getDeviceVariantCollection()[0].getName().getTextId();
+                    if(variantKey != null){
+                        iodd.setDeviceName(getNameForKey(variantKey));
+                    }
+                }else{
+                    iodd.setDeviceName(getNameForKey(variantKey));
+                }
+            }catch(Exception er){
+                iodd.setDeviceName("NOT FOUND");
+            }
         }
         try{
             iodd.setIoLinkRevision(this.getCommNetworkProfile().getIolinkRevision());
@@ -48,10 +55,22 @@ public class IoddDTO {
         }
         try{
             iodd.setBitrate(this.getCommNetworkProfile().getTransportLayers().getPhysicalLayer().getBitrate());
+            if(iodd.getBitrate() == null){
+                iodd.setBitrate(this.getCommNetworkProfile().getTransportLayers().getPhysicalLayer().getBaudrate());
+            }
         }catch (Exception ex){
             iodd.setBitrate("NOT FOUND");
         }
 
         return iodd;
+    }
+
+    protected String getNameForKey(String key){
+        for(TextDTO text: this.getExternalTextCollection().getPrimaryLanguage().getText()){
+            if(text.getId().equals(key)){
+                return text.getValue();
+            }
+        }
+        return "NOT FOUND";
     }
 }
