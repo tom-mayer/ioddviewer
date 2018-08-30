@@ -39,10 +39,10 @@ public class IoddDTO {
                 if(variantKey == null){
                     variantKey = getProfileBody().getDeviceIdentity().getDeviceVariantCollection()[0].getName().getTextId();
                     if(variantKey != null){
-                        iodd.setDeviceName(getNameForKey(variantKey));
+                        iodd.setDeviceName(getNameForKey(variantKey) + " (Variant)");
                     }
                 }else{
-                    iodd.setDeviceName(getNameForKey(variantKey));
+                    iodd.setDeviceName(getNameForKey(variantKey) + " (Variant)");
                 }
             }catch(Exception er){
                 iodd.setDeviceName("NOT FOUND");
